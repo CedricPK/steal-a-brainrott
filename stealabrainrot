@@ -84,7 +84,7 @@ Credit.TextXAlignment = Enum.TextXAlignment.Left
 Credit.TextTransparency = 1
 
 local function fadeInText(obj)
-    TweenService:Create(obj, TweenInfo.new(0.6), {TextTransparency = 0}):Play()
+    TweenService:Create(obj, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextTransparency = 0}):Play()
 end
 
 task.wait(0.2)
@@ -96,23 +96,19 @@ fadeInText(Credit)
 StartBtn.MouseButton1Click:Connect(function()
     StartBtn.AutoButtonColor = false
     StartBtn.Text = "STEALING..."
-    StartBtn.TextColor3 = Color3.fromRGB(255, 180, 0)
+    TweenService:Create(StartBtn, TweenInfo.new(0.4), {TextColor3 = Color3.fromRGB(255, 180, 0)}):Play()
     local remaining = 2
     while remaining > 0 do
         StatusLabel.Text = string.format("STEALING IN 0:0%d", remaining)
         task.wait(1)
         remaining -= 1
     end
-    local success, err = pcall(function()
+    local success = pcall(function()
         game:GetService("ReplicatedStorage").Packages.Net:FindFirstChild("RE/StealService/DeliverySteal"):FireServer()
     end)
     if success then
         StatusLabel.Text = "STEAL SENT ✅"
         StartBtn.Text = "DONE"
-        StartBtn.TextColor3 = Color3.fromRGB(0, 180, 90)
-    else
-        StatusLabel.Text = "FAILED ❌"
-        StartBtn.Text = "ERROR"
-        StartBtn.TextColor3 = Color3.fromRGB(255, 60, 60)
+        TweenService:Create(StartBtn, TweenInfo.new(0.4), {TextColor3 = Color3.fromRGB(0, 180, 90)}):Play()
     end
 end)
